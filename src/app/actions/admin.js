@@ -91,3 +91,34 @@ export async function promoteToAdmin(userId) {
     return { error: "Failed to promote user" };
   }
 }
+
+export async function deleteUser(userId) {
+  await requireAdmin();
+  try {
+    await prisma.$transaction(async (tx) => {
+      // 1. Delete all bids placed by this user
+      await tx.bid.deleteMany({ where: { bidderId: userId } });
+      
+      // 2. Find all products created by this user
+      const userProducts = await tx.product.findMany({ where: { sellerId: userId } });
+      const productIds = userProducts.map((p) => p.id);
+      
+      // 3. Delete all bids placed on this user's products
+      if (productIds.length > 0) {
+        await tx.bid.deleteMany({ where: { productId: { in: productIds } } });
+      }
+      
+      // 4. Delete all products created by this user
+      await tx.product.deleteMany({ where: { sellerId: userId } });
+      
+      // 5. Finally, delete the user's account
+      await tx.user.delete({ where: { id: userId } });
+    });
+    
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (error) {
+    console.error("Delete user error:", error);
+    return { error: "Failed to delete user" };
+  }
+}

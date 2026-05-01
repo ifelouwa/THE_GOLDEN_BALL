@@ -3,6 +3,8 @@
 import { prisma } from "../../lib/prisma";
 import bcrypt from "bcryptjs";
 
+import { sendWelcomeEmail } from "../../lib/resend";
+
 export async function register(formData) {
   const name = formData.get("name");
   const username = formData.get("username");
@@ -36,6 +38,9 @@ export async function register(formData) {
         phone,
       },
     });
+
+    // Send Welcome Email (Fire and forget, won't block the UI if it fails)
+    sendWelcomeEmail(email, username);
 
     return { success: true };
   } catch (error) {

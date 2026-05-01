@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { toggleProductStatus, deleteProduct, promoteToAdmin } from "../actions/admin";
+import { toggleProductStatus, deleteProduct, promoteToAdmin, deleteUser } from "../actions/admin";
 import { Trash2, ToggleLeft, ToggleRight, ShieldPlus, Package, Users } from "lucide-react";
 
 export function AdminClient({ products, users }) {
@@ -26,6 +26,13 @@ export function AdminClient({ products, users }) {
     if (!confirm("Promote this user to Admin?")) return;
     setLoadingId(userId + "-promote");
     await promoteToAdmin(userId);
+    setLoadingId(null);
+  };
+
+  const handleDeleteUser = async (userId) => {
+    if (!confirm("Are you sure? This will permanently delete the user, their auctions, and all their bids!")) return;
+    setLoadingId(userId + "-deluser");
+    await deleteUser(userId);
     setLoadingId(null);
   };
 
@@ -178,17 +185,27 @@ export function AdminClient({ products, users }) {
                     {new Date(u.createdAt).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3">
-                    {u.role !== "ADMIN" && (
+                    <div className="flex items-center gap-2">
+                      {u.role !== "ADMIN" && (
+                        <button
+                          onClick={() => handlePromote(u.id)}
+                          disabled={loadingId === u.id + "-promote"}
+                          title="Promote to Admin"
+                          className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium text-[var(--muted-foreground)] hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors disabled:opacity-40"
+                        >
+                          <ShieldPlus className="h-3.5 w-3.5" />
+                          Make Admin
+                        </button>
+                      )}
                       <button
-                        onClick={() => handlePromote(u.id)}
-                        disabled={loadingId === u.id + "-promote"}
-                        title="Promote to Admin"
-                        className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium text-[var(--muted-foreground)] hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] transition-colors disabled:opacity-40"
+                        onClick={() => handleDeleteUser(u.id)}
+                        disabled={loadingId === u.id + "-deluser"}
+                        title="Delete user and all data"
+                        className="rounded-md p-1.5 text-[var(--muted-foreground)] hover:bg-red-500/10 hover:text-red-400 transition-colors disabled:opacity-40"
                       >
-                        <ShieldPlus className="h-3.5 w-3.5" />
-                        Make Admin
+                        <Trash2 className="h-4 w-4" />
                       </button>
-                    )}
+                    </div>
                   </td>
                 </tr>
               ))}

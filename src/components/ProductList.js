@@ -78,7 +78,7 @@ export function ProductList({ initialProducts, user }) {
             <ProductCard
               product={product}
               user={user}
-              onBid={(e) => { e.preventDefault(); handleBidClick(product); }}
+              onBid={() => handleBidClick(product)}
             />
           </Link>
         ))}
