@@ -88,13 +88,13 @@ export default async function ProductDetailPage({ params }) {
               <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
                 <Tag className="h-3 w-3" /> Starting Price
               </div>
-              <p className="font-serif text-2xl font-bold">${product.startingPrice.toFixed(2)}</p>
+              <p className="font-serif text-2xl font-bold">{product.currency || "$"}{product.startingPrice.toFixed(2)}</p>
             </div>
             <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 p-4 space-y-1">
               <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--accent)]">
                 <TrendingUp className="h-3 w-3" /> Current Bid
               </div>
-              <p className="font-serif text-2xl font-bold text-[var(--accent)]">${currentPrice.toFixed(2)}</p>
+              <p className="font-serif text-2xl font-bold text-[var(--accent)]">{product.currency || "$"}{currentPrice.toFixed(2)}</p>
             </div>
           </div>
 
@@ -162,7 +162,7 @@ export default async function ProductDetailPage({ params }) {
                         <span className="text-xs text-[var(--muted-foreground)]">@{bid.bidder.username}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-bold text-[var(--accent)]">${bid.amount.toFixed(2)}</td>
+                    <td className="px-6 py-4 font-bold text-[var(--accent)]">{product.currency || "$"}{bid.amount.toFixed(2)}</td>
                     <td className="px-6 py-4 text-sm text-[var(--muted-foreground)]">
                       {new Date(bid.createdAt).toLocaleString()}
                     </td>

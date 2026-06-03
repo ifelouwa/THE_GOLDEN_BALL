@@ -28,6 +28,7 @@ model Product {
   description   String?
   startingPrice Float
   currentPrice  Float    @default(0)
+  currency      String   @default("$")
   image         String
   sellerId      String
   startTime     DateTime

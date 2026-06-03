@@ -89,7 +89,7 @@ export function AdminClient({ products, users }) {
                       <div>
                         <p className="font-medium text-sm leading-tight">{p.title}</p>
                         <p className="text-xs text-[var(--muted-foreground)]">
-                          ${p.currentPrice || p.startingPrice}
+                          {p.currency || "$"}{p.currentPrice || p.startingPrice}
                         </p>
                       </div>
                     </div>

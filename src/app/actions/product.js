@@ -67,7 +67,7 @@ export async function placeBid(productId, amount) {
       
       const currentPrice = product.currentPrice || product.startingPrice;
       if (amount <= currentPrice) {
-        throw new Error(`Bid must be greater than $${currentPrice}`);
+        throw new Error(`Bid must be greater than ${product.currency || "$"}${currentPrice}`);
       }
 
       const bid = await tx.bid.create({
@@ -108,6 +108,7 @@ export async function createProduct(formData) {
   const title = formData.get("title");
   const description = formData.get("description");
   const startingPrice = parseFloat(formData.get("startingPrice"));
+  const currency = formData.get("currency") || "$";
   const image = formData.get("image");
   const endTime = new Date(formData.get("endTime"));
 
@@ -122,6 +123,7 @@ export async function createProduct(formData) {
         description,
         startingPrice,
         currentPrice: startingPrice,
+        currency,
         image,
         endTime,
         startTime: new Date(),

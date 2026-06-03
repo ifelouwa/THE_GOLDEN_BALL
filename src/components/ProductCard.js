@@ -44,7 +44,7 @@ export function ProductCard({ product, user, onBid }) {
             </span>
             <div className="flex items-center gap-1 font-medium">
               <Tag className="h-3 w-3" />
-              ${product.startingPrice}
+              {product.currency || "$"}{product.startingPrice}
             </div>
           </div>
           <div className="space-y-0.5">
@@ -53,7 +53,7 @@ export function ProductCard({ product, user, onBid }) {
             </span>
             <div className="flex items-center gap-1 font-bold text-[var(--accent)]">
               <Gavel className="h-3 w-3" />
-              ${currentPrice}
+              {product.currency || "$"}{currentPrice}
             </div>
           </div>
         </div>

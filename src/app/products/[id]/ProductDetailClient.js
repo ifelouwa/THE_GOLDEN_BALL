@@ -111,7 +111,7 @@ export function ProductDetailClient({ product, user, isOwner, isActive, currentP
                     <div className="text-center">
                       <p className="text-sm text-[var(--muted-foreground)]">Current Price</p>
                       <p className="font-serif text-3xl font-bold text-[var(--accent)]">
-                        ${currentPrice.toFixed(2)}
+                        {product.currency || "$"}{currentPrice.toFixed(2)}
                       </p>
                     </div>
 
@@ -124,7 +124,7 @@ export function ProductDetailClient({ product, user, isOwner, isActive, currentP
 
                     <div className="space-y-4">
                       <Input
-                        label="Your Bid Amount ($)"
+                        label={`Your Bid Amount (${product.currency || "$"})`}
                         type="number"
                         value={bidAmount}
                         onChange={(e) => setBidAmount(e.target.value)}
@@ -135,7 +135,7 @@ export function ProductDetailClient({ product, user, isOwner, isActive, currentP
                         onClick={handlePlaceBid}
                         disabled={loading}
                       >
-                        {loading ? "Placing Bid..." : `Place $${bidAmount} Bid`}
+                        {loading ? "Placing Bid..." : `Place ${product.currency || "$"}${bidAmount} Bid`}
                       </Button>
                     </div>
                   </>

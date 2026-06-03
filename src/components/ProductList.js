@@ -104,7 +104,7 @@ export function ProductList({ initialProducts, user }) {
                 <div className="text-center">
                   <p className="text-sm text-[var(--muted-foreground)]">Current Price</p>
                   <p className="font-serif text-3xl font-bold text-[var(--accent)]">
-                    ${selectedProduct.currentPrice || selectedProduct.startingPrice}
+                    {selectedProduct.currency || "$"}{selectedProduct.currentPrice || selectedProduct.startingPrice}
                   </p>
                 </div>
 
@@ -116,7 +116,7 @@ export function ProductList({ initialProducts, user }) {
 
                 <div className="space-y-4">
                   <Input
-                    label="Your Bid Amount ($)"
+                    label={`Your Bid Amount (${selectedProduct.currency || "$"})`}
                     type="number"
                     value={bidAmount}
                     onChange={(e) => setBidAmount(e.target.value)}
@@ -127,7 +127,7 @@ export function ProductList({ initialProducts, user }) {
                     onClick={handlePlaceBid}
                     disabled={loading}
                   >
-                    {loading ? "Placing Bid..." : `Place $${bidAmount} Bid`}
+                    {loading ? "Placing Bid..." : `Place ${selectedProduct.currency || "$"}${bidAmount} Bid`}
                   </Button>
                 </div>
               </div>

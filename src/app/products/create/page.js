@@ -87,13 +87,31 @@ export default function CreateProductPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <Input
-              label="Starting Price ($)"
-              name="startingPrice"
-              type="number"
-              placeholder="0.00"
-              required
-            />
+            <div className="grid grid-cols-3 gap-3">
+              <div className="flex flex-col gap-1.5 col-span-1">
+                <label className="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">
+                  Currency
+                </label>
+                <select
+                  name="currency"
+                  defaultValue="$"
+                  className="block w-full rounded-md border border-[var(--border)] bg-[var(--background)] px-3 py-2.5 text-sm transition-colors focus:border-[var(--foreground)] focus:outline-none"
+                >
+                  <option value="$">$ (USD)</option>
+                  <option value="£">£ (GBP)</option>
+                  <option value="€">€ (EUR)</option>
+                </select>
+              </div>
+              <div className="col-span-2">
+                <Input
+                  label="Starting Price"
+                  name="startingPrice"
+                  type="number"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+            </div>
 
             {/* Gap #5: Image URL with live preview */}
             <div className="flex flex-col gap-1.5">

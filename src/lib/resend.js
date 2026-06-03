@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 // Resend requires an API key in the environment variables
 // process.env.RESEND_API_KEY
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy_key_for_build");
 
 // Use Resend's testing domain for development
 const FROM_EMAIL = "The Golden Ball <onboarding@resend.dev>";
