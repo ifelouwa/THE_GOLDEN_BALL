@@ -84,3 +84,34 @@ Here is what happens during a deployment:
 1. **Build Phase**: Railway runs `npm run build`, which triggers `postinstall` -> `prisma generate` to compile the Prisma Client.
 2. **Deploy Phase**: Before launching the server, Railway runs `npm run prestart` which runs `prisma db push`. This automatically connects to your Railway PostgreSQL database and updates the schema to match your models.
 3. **Start Phase**: Railway starts the Next.js production server with `npm run start`.
+
+---
+
+## Seeding the Production Database
+
+Since the seed script is a one-off setup action that clears existing products, you should run it directly from your terminal. Here are the two ways to seed your Railway database:
+
+### Option A: Using the Postgres Connection URL (Recommended)
+
+1. Log into your **Railway Dashboard** and click on your **PostgreSQL** database service.
+2. Go to the **Connect** tab.
+3. Copy the **External Connection URL** (it starts with `postgresql://`).
+4. Temporarily replace the `DATABASE_URL` value in your local `.env` file with this copied URL.
+5. In your local terminal, run the seed script:
+   ```bash
+   node prisma/seed.js
+   ```
+6. Restore your local `DATABASE_URL` in `.env` back to your localhost database URL.
+
+### Option B: Using the Railway CLI (If Installed)
+
+If you have the Railway CLI installed and logged in (`railway login`):
+1. Link your local directory to your Railway project:
+   ```bash
+   railway link
+   ```
+2. Run the seed script using Railway run (which automatically injects the production database environment variables):
+   ```bash
+   railway run node prisma/seed.js
+   ```
+

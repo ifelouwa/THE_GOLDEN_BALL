@@ -1,3 +1,7 @@
+// Seed Admin Account Credentials:
+// Email: admin@goldenball.com
+// Password: admin123
+
 generator client {
   provider        = "prisma-client-js"
   engineType      = "library"

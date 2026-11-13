@@ -58,6 +58,23 @@ async function main() {
 
   console.log(`Seller user created/retrieved: ${seller.name} (${seller.id})`);
 
+  // Create default admin user
+  const adminPassword = await bcrypt.hash("admin123", 10);
+  const admin = await prisma.user.upsert({
+    where: { email: "admin@goldenball.com" },
+    update: {},
+    create: {
+      name: "Administrator",
+      username: "admin",
+      email: "admin@goldenball.com",
+      password: adminPassword,
+      phone: "1234567890",
+      role: "ADMIN",
+    },
+  });
+
+  console.log(`Admin user created/retrieved: ${admin.name} (${admin.id})`);
+
   // 2. Clear existing bids and products to avoid duplication during clean seed
   console.log("Cleaning existing bids and products...");
   await prisma.bid.deleteMany({});
